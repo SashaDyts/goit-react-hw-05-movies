@@ -4,7 +4,7 @@ import { FilmList } from 'components/FilmList/FilmList';
 
 import { getFilms } from 'services/api';
 
-export function Home() {
+export default function Home() {
   const [films, setFilms] = useState([]);
 
   useEffect(() => {

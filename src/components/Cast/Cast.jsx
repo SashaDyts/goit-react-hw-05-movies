@@ -5,7 +5,7 @@ import { getMovieCast } from 'services/api';
 
 import { ActorCard } from './CastStyled';
 
-export function Cast() {
+export default function Cast() {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
 

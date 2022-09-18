@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, Outlet } from 'react-router-dom';
+import { Link, useParams, Outlet, useLocation } from 'react-router-dom';
 
 import { Container, FilmInfo } from './MovieDetails.styled';
 
 import { getFilmDetails } from 'services/api';
 
-export function MovieDetails() {
+export default function MovieDetails() {
   const { movieId } = useParams();
   const [film, setFilm] = useState(null);
+
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/movies';
+  console.log(backLinkHref);
 
   useEffect(() => {
     if (!movieId) {
@@ -25,6 +29,7 @@ export function MovieDetails() {
 
   return (
     <>
+      <Link to={backLinkHref}>Go back</Link>
       {film && (
         <Container>
           <FilmInfo>
@@ -45,10 +50,10 @@ export function MovieDetails() {
             </div>
           </FilmInfo>
           <ul>
-            <Link to="cast">
+            <Link to="cast" state={{ from: backLinkHref }}>
               <li>Cast</li>
             </Link>
-            <Link to="reviews">
+            <Link to="reviews" state={{ from: backLinkHref }}>
               <li>Reviews</li>
             </Link>
           </ul>

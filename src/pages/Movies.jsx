@@ -4,29 +4,35 @@ import { SearchBar } from 'components/SearchBar/SearchBar';
 import { FilmList } from 'components/FilmList/FilmList';
 
 import { searchFilm } from 'services/api';
+import { useSearchParams } from 'react-router-dom';
 
-export function Movies() {
+export default function Movies() {
   const [films, setFilms] = useState([]);
-  const [query, setQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryParam = searchParams.get('query') ?? '';
 
   useEffect(() => {
-    if (query === '') {
+    if (queryParam === '') {
       return;
     }
 
     const fetchSearchfilms = async () => {
-      const data = await searchFilm(query);
+      const data = await searchFilm(queryParam);
 
       setFilms(data.results);
     };
 
     fetchSearchfilms();
-  }, [query]);
+  }, [queryParam]);
+
+  const changeQuery = value => {
+    setSearchParams(value !== '' ? { query: value } : {});
+  };
 
   return (
     <>
-      <SearchBar onSubmit={setQuery} />
-      {query && <FilmList movies={films} />}
+      <SearchBar onSubmit={changeQuery} />
+      {queryParam && <FilmList movies={films} query={queryParam} />}
     </>
   );
 }

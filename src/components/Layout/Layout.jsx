@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { AppBar } from 'components/AppBar/AppBar';
 import { Container } from './Layout.styled';
 import { Outlet } from 'react-router-dom';
 
-export function Layout() {
+export default function Layout() {
   return (
     <>
       <Container>
         <AppBar />
-        <Outlet />
+
+        <Suspense>
+          <Outlet />
+        </Suspense>
       </Container>
     </>
   );
